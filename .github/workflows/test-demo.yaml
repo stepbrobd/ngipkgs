@@ -24,13 +24,16 @@ jobs:
         project:
           - "Cryptpad"
           - "mitmproxy"
+        installer:
+          - "distro"
+          - "rust"
 
     runs-on: ubuntu-latest
     steps:
       - uses: 'actions/checkout@v4'
         with: { persist-credentials: false }
 
-      - uses: cachix/install-nix-action@7be5dee1421f63d07e71ce6e0a9f8a4b07c2a487 # v31.6.1
+      - uses: NixOS/nix-installer-action@main
 
       - name: Build projects overview
         run: nix build .#overview
@@ -39,6 +42,7 @@ jobs:
         env:
           DISTRO: ${{ matrix.distro }}
           PROJECT: ${{ matrix.project }}
+          INSTALLER: ${{ matrix.installer }}
           NIX_CONFIG: |
             extra-substituters = https://ngi.cachix.org/
             extra-trusted-public-keys = ngi.cachix.org-1:n+CAL72ROC3qQuLxIHpV+Tw5t42WhXmMhprAGkRSrOw=
@@ -49,5 +53,6 @@ jobs:
           --volume "$(pwd):/ngipkgs"
           -e DISTRO="$DISTRO"
           -e PROJECT="$PROJECT"
+          -e INSTALLER="$INSTALLER"
           "$DISTRO"
           /bin/bash -c "bash /ngipkgs/.github/workflows/test-demo.sh"

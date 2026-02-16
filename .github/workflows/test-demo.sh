@@ -2,21 +2,34 @@
 
 set -eo pipefail
 
-install_nix() {
-    # Debian/Ubuntu
-    if echo "$DISTRO" | grep --quiet "debian\|ubuntu"; then
+_pkg_install() {
+    local pkgs=("$@")
+
+    case "$DISTRO" in
+    *debian* | *ubuntu*)
         apt update
-        apt install --yes curl git jq nix
-    # Archlinux
-    elif echo "$DISTRO" | grep --quiet archlinux; then
-        pacman --sync --refresh --noconfirm --sysupgrade
-        # install Nix
-        pacman --sync --refresh --noconfirm curl git jq nix
-    # Other
-    else
-        echo "ERROR: Unknown distro. Exiting ..."
+        apt install --yes "${pkgs[@]}"
+        ;;
+    *archlinux*)
+        pacman -Syu --noconfirm "${pkgs[@]}"
+        ;;
+    *)
+        echo "ERROR: Unknown distro '$DISTRO'. Exiting ..." >&2
         exit 1
+        ;;
+    esac
+}
+
+install_nix() {
+    _pkg_install curl
+
+    if [[ "$INSTALLER" == "experimental" ]]; then
+        curl -sSfL https://artifacts.nixos.org/nix-installer | sh -s -- install linux --no-confirm --init none
+        source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+        return
     fi
+
+    _pkg_install jq nix
 }
 
 nix_version() {
