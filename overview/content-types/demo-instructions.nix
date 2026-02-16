@@ -16,6 +16,19 @@ in
       type = types.submodule ./shell-instructions.nix;
       default.instructions = [
         {
+          platform = "Linux (Recommended)";
+          shell-session.bash = [
+            {
+              input = ''
+                curl -sSfL https://artifacts.nixos.org/nix-installer | sh -s -- install
+
+                # to uninstall, run:
+                $ /nix/nix-installer uninstall
+              '';
+            }
+          ];
+        }
+        {
           platform = "Debian";
           shell-session.bash = [
             {
