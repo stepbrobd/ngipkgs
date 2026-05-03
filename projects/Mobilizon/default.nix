@@ -17,6 +17,20 @@
         "Mobilizon"
       ];
     };
+    links = {
+      homepage = {
+        text = "Homepage";
+        url = "https://mobilizon.org/";
+      };
+      docs = {
+        text = "Documentation";
+        url = "https://docs.mobilizon.org/";
+      };
+      source = {
+        text = "Source Code";
+        url = "https://framagit.org/kaihuri/mobilizon";
+      };
+    };
   };
 
   nixos.modules.services = {
