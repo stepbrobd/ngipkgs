@@ -376,7 +376,8 @@ let
         ) "<meta property=\"og:description\" content=\"${args.summary}\" />"}
         <meta property="og:url" content="https://ngi.nixos.org/${path}" />
         <meta property="og:type" content="website" />
-        <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="/ngipkgs/style.css">
+        <link rel="icon" href="/ngipkgs/favicon.ico">
       </head>
       <body>
         ${args.content}
