@@ -1,3 +1,5 @@
+**IMPORTANT: This repository is deprecated now. New packaging is now happening in [NGI Forge](https://github.com/ngi-nix/forge) and in [Nixpkgs](https://github.com/NixOS/nixpkgs). We are working on migration of all content from this repository to Nixpkgs.**
+
 # NGIpkgs
 
 [Nix] is an open source build system, configuration management system, and mechanism for deploying software, focused on reproducibility.
